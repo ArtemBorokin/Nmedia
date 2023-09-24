@@ -93,13 +93,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/contentBarrier"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@drawable/icon_like"
+        android:src="@drawable/icon_like"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         />
 
     <TextView
-        android:id="@+id/number_likes"
+        android:id="@+id/countLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -114,14 +114,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/contentBarrier"
-        app:layout_constraintStart_toEndOf="@id/number_likes"
-        tools:srcCompat="@drawable/icon_share"
+        app:layout_constraintStart_toEndOf="@id/countLike"
+        android:src="@drawable/icon_share"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         />
 
     <TextView
-        android:id="@+id/number_share"
+        android:id="@+id/countShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -136,13 +136,13 @@
         android:src="@drawable/icon_views"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/number_views"
+        app:layout_constraintEnd_toStartOf="@id/countViews"
         app:layout_constraintTop_toTopOf="@id/contentBarrier"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         />
     <TextView
-        android:id="@+id/number_views"
+        android:id="@+id/countViews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
