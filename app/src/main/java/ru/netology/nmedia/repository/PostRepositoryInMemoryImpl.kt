@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
 
-class PostRepositoryInMemoryImpl: PostRepository {
+class PostRepositoryInMemoryImpl : PostRepository {
 
-    private var post = Post (
+    private var post = Post(
         id = 1,
         author = "Нетология. Университет интернет-профессий будущего",
         content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу." +
@@ -26,12 +26,15 @@ class PostRepositoryInMemoryImpl: PostRepository {
 
     override fun like() {
 
-        post = post.copy(likedByMe = !post.likedByMe, countLikes = if (post.likedByMe) post.countLikes - 1 else post.countLikes + 1)
+        post = post.copy(
+            likedByMe = !post.likedByMe,
+            countLikes = if (post.likedByMe) post.countLikes - 1 else post.countLikes + 1
+        )
         data.value = post
     }
 
-    override fun share () {
-        post = post.copy(countShare = post.countShare +1)
+    override fun share() {
+        post = post.copy(countShare = post.countShare + 1)
         data.value = post
     }
 }

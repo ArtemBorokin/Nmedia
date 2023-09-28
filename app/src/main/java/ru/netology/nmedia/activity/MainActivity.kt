@@ -24,24 +24,16 @@ class MainActivity : AppCompatActivity() {
                 published.text = post.published
                 content.text = post.content
                 countLike.text = count(post.countLikes)
+                countShare.text = count(post.countShare)
+                countViews.text = count(post.countViews)
                 like.setImageResource(if (post.likedByMe) (R.drawable.ic_liked_24) else (R.drawable.icon_like))
 
-                like.setOnClickListener {
-                    post.likedByMe = !post.likedByMe
-
-                    if (post.likedByMe) {
-                        post.countLikes += 1
-                        countLike.text = count(post.countLikes)
-                        like.setImageResource(R.drawable.ic_liked_24)
-                    } else {
-                        post.countLikes -= 1
-                        countLike.text = count(post.countLikes)
-                        like.setImageResource(R.drawable.icon_like)
-                    }
+                binding.like.setOnClickListener {
+                    viewModel.like()
                 }
-                share.setOnClickListener {
-                    countShare.text = count(post.countShare)
-                    post.countShare += 1
+
+                binding.share.setOnClickListener {
+                    viewModel.share()
                 }
             }
         }
