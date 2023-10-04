@@ -1,4 +1,4 @@
-package ru.netology.nmedia.count
+package ru.netology.nmedia.dto
 
 fun count(count: Int): String {
     val hundred = (count % 1000) / 100
