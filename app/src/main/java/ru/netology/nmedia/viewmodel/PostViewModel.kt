@@ -10,7 +10,7 @@ class PostVewModel: ViewModel() {
 
     val data = repository.get()
 
-    fun like () = repository.like()
+    fun like (id: Long) = repository.like(id)
 
-    fun share () = repository.share()
+    fun share (id: Long) = repository.share(id)
 }
