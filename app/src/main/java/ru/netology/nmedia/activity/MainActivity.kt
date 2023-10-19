@@ -16,7 +16,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostVewModel by viewModels()
-        val adapter = PostAdapter()
+        val adapter = PostAdapter({
+            viewModel.like(it.id)
+        },
+        {
+             viewModel.share(it.id)
+        })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { post ->
             adapter.list = post

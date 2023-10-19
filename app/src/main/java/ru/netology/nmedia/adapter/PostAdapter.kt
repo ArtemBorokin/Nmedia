@@ -8,7 +8,7 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.count
 
-class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
+class PostAdapter (private val listener : (Post) -> Unit) : RecyclerView.Adapter<PostViewHolder>() {
 
     var list : List<Post> = emptyList()
         set(value) {
@@ -17,7 +17,7 @@ class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
         }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
        val view = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(view)
+        return PostViewHolder(view, listener)
     }
 
     override fun getItemCount() = list.size
@@ -27,7 +27,7 @@ class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
         holder.bind(post)
     }
 }
-class PostViewHolder (private  val binding: CardPostBinding) : RecyclerView.ViewHolder(binding.root) {
+class PostViewHolder (private  val binding: CardPostBinding, private val listener : (Post) -> Unit) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind (post : Post){
         with(binding) {
@@ -43,11 +43,11 @@ class PostViewHolder (private  val binding: CardPostBinding) : RecyclerView.View
             )
 
             like.setOnClickListener {
-//                viewModel.like(post.id)
+                listener(post)
             }
 
             share.setOnClickListener {
-//                viewModel.share(post.id)
+                listener(post)
             }
         }
     }
