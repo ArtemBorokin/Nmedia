@@ -38,12 +38,20 @@ class PostViewModel : ViewModel() {
         edited.value = post
     }
 
-    fun changeContent(content: String) {
-        edited.value?.let { post ->
-            val text = content.trim()
-            if (text != post.content) {
-                edited.value = post.copy(content = text)
+    fun cancelEdit() {
+        edited.value = empty
+    }
+
+    fun changeContentAndSave(content: String) {
+        val text = content.trim()
+        if (edited.value?.content == text) {
+            return
+        }
+        edited.value.let {
+            if (it != null) {
+                repository.save(it.copy(content = text))
             }
         }
+        edited.value = empty
     }
 }

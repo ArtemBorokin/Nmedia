@@ -1,12 +1,15 @@
 package ru.netology.nmedia.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
@@ -18,12 +21,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
-        val adapter = PostAdapter({
-            viewModel.like(it.id)
-        }, {
-            viewModel.share(it.id)
-        }, {
-            viewModel.removeById(it.id)
+        val adapter = PostAdapter(object : OnInteractionListener {
+            override fun OnLikeListener(post: Post) {
+                viewModel.like(post.id)
+            }
+
+            override fun OnShareListener(post: Post) {
+                viewModel.share(post.id)
+            }
+
+            override fun OnRemoveListener(post: Post) {
+                viewModel.removeById(post.id)
+            }
+
+            override fun OnEditListener(post: Post) {
+                viewModel.edit(post)
+            }
         })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { post ->
@@ -36,15 +49,24 @@ class MainActivity : AppCompatActivity() {
         }
         binding.save.setOnClickListener {
             val text = binding.content.text.toString()
-            if (text.isBlank()){
+            if (text.isBlank()) {
                 Toast.makeText(this, R.string.error_empty_content, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
-            viewModel.changeContent(text)
+            viewModel.changeContentAndSave(text)
             viewModel.save()
 
             binding.content.setText("")
             binding.content.clearFocus()
+            AndroidUtils.hideKeyboard(it)
+        }
+        binding.clear.setOnClickListener {
+            binding.group.visibility = View.GONE
+            binding.content.clearFocus()
+            binding.content.text.clear()
+
+            viewModel.cancelEdit()
+
             AndroidUtils.hideKeyboard(it)
         }
     }

@@ -46,11 +46,9 @@ class PostViewHolder(
             author.text = post.author
             content.text = post.content
             published.text = post.published
-            share = count(post.countShare)
-            views = count(post.countViews)
-
-            like.isChecked = post.countLikes
-            like.text = count(post.countLikes)
+            countShare.text = count(post.countShare)
+            countViews.text = count(post.countViews)
+            countLike.text = count(post.countLikes)
 
             like.setOnClickListener {
                 onInteractionListener.OnLikeListener(post)
