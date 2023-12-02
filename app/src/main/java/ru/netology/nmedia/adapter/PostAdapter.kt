@@ -11,10 +11,10 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 
 interface OnInteractionListener {
-    fun OnLikeListener(post: Post)
-    fun OnShareListener(post: Post)
-    fun OnRemoveListener(post: Post)
-    fun OnEditListener(post: Post)
+    fun OnLikeListener(post: Post) {}
+    fun OnShareListener(post: Post) {}
+    fun OnRemoveListener(post: Post) {}
+    fun OnEditListener(post: Post) {}
 }
 
 class PostAdapter(
@@ -46,12 +46,16 @@ class PostViewHolder(
             author.text = post.author
             content.text = post.content
             published.text = post.published
-            countShare.text = count(post.countShare)
+            share.text = count(post.countShare)
             countViews.text = count(post.countViews)
             //countLike.text = count(post.countLikes)
 
             like.isChecked = post.likedByMe
-            like.text = post.countLikes.toString()
+            like.text = count(post.countLikes)
+
+            like.setOnClickListener {
+                onInteractionListener.OnLikeListener(post)
+            }
 
             share.setOnClickListener {
                 onInteractionListener.OnShareListener(post)
