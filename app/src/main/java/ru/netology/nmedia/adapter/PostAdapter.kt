@@ -47,8 +47,7 @@ class PostViewHolder(
             content.text = post.content
             published.text = post.published
             share.text = count(post.countShare)
-            countViews.text = count(post.countViews)
-            //countLike.text = count(post.countLikes)
+            views.text = count(post.countViews)
 
             like.isChecked = post.likedByMe
             like.text = count(post.countLikes)
