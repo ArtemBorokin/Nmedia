@@ -10,49 +10,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/barrier_bottom"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/card_post" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="content, save" />
-
-    <EditText
-        android:id="@+id/content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:hint="@string/post_text"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/save"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/description_post_save"
-        android:src="@drawable/baseline_add_circle_outline_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/content"
-        app:layout_constraintTop_toBottomOf="@+id/list" />
 
     <ImageButton
         android:id="@+id/pen"
@@ -61,7 +24,6 @@
         android:layout_marginBottom="4dp"
         android:background="@android:color/transparent"
         android:src="@drawable/baseline_edit_24"
-        app:layout_constraintBottom_toTopOf="@+id/content"
         app:layout_constraintTop_toBottomOf="@+id/list"
         app:layout_constraintTop_toTopOf="@+id/edit_pen" />
 
@@ -103,7 +65,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/content"
         app:layout_constraintEnd_toStartOf="@+id/clear"
         app:layout_constraintStart_toEndOf="@+id/pen"
         app:layout_constraintTop_toBottomOf="@+id/edit_pen" />
@@ -115,5 +76,14 @@
         android:visibility="gone"
         app:constraint_referenced_ids="content_line, clear, edit_pen, pen" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_add_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
