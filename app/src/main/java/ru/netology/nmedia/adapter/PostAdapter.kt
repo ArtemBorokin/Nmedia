@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
+import androidx.core.view.isVisible
 
 interface OnInteractionListener {
     fun OnLike(post: Post) {}
     fun OnShare(post: Post) {}
     fun OnRemove(post: Post) {}
     fun OnEdit(post: Post) {}
+    fun PlayVideo (post: Post)
 }
 
 class PostAdapter(
@@ -52,12 +54,22 @@ class PostViewHolder(
             like.isChecked = post.likedByMe
             like.text = count(post.countLikes)
 
+            attach.isVisible = post.video != null
+
             like.setOnClickListener {
                 onInteractionListener.OnLike(post)
             }
 
             share.setOnClickListener {
                 onInteractionListener.OnShare(post)
+            }
+
+            play.setOnClickListener{
+                onInteractionListener.PlayVideo(post)
+            }
+
+            image.setOnClickListener{
+                onInteractionListener.PlayVideo(post)
             }
 
             menu.setOnClickListener {

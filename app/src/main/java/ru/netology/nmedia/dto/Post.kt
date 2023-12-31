@@ -9,4 +9,5 @@ data class Post(
     val countViews: Int = 0,
     val countLikes: Int = 0,
     val countShare: Int = 0,
+    var video: String?
 )

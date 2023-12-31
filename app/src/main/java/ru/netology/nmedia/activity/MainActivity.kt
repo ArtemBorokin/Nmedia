@@ -19,10 +19,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
+
         val newPostLauncher = registerForActivityResult(NewPostContract) { text ->
             text ?: return@registerForActivityResult
             viewModel.changeContentAndSave(text.toString())
             viewModel.save()
+        }
+
+        val newOrEditLauncher = registerForActivityResult(NewPostContract) {
+            val text = it ?: return@registerForActivityResult
+            viewModel.changeContentAndSave(text)
         }
 
         val adapter = PostAdapter(object : OnInteractionListener {
@@ -48,8 +54,26 @@ class MainActivity : AppCompatActivity() {
 
             override fun OnEdit(post: Post) {
                 viewModel.edit(post)
+                newOrEditLauncher.launch(post.content)
             }
+
+            override fun PlayVideo(post: Post) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                startActivity(intent)
+            }
+
+                val chooser = Intent.createChooser(intent, null)
+                startActivity(chooser)
+
+
         })
+
+        binding.list.adapter = adapter
+
+        binding.newPostButton.setOnClickListener{
+            newPostContract.launch(null)
+        }
+
 
         binding.list.adapter = adapter
         viewModel.data.observe(this) { post ->
@@ -60,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         binding.add.setOnClickListener {
             newPostLauncher.launch(null)
         }

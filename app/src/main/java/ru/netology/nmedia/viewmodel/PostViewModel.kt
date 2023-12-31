@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
+import androidx.constraintlayout.widget.ConstraintLayout
 
 
 private val empty = Post(
@@ -15,7 +16,8 @@ private val empty = Post(
     likedByMe = false,
     countLikes = 0,
     countShare = 0,
-    countViews = 0
+    countViews = 0,
+    video = null
 )
 
 class PostViewModel : ViewModel() {

@@ -19,6 +19,7 @@ class IntentHandlerActivity : AppCompatActivity() {
             }
 
             val text = it.getStringExtra(Intent.EXTRA_TEXT)
+
             if (text.isNullOrBlank()) {
                 Snackbar.make(
                     binding.root,
@@ -29,6 +30,7 @@ class IntentHandlerActivity : AppCompatActivity() {
                         finish()
                     }
                     .show()
+                return
             }
         }
     }
