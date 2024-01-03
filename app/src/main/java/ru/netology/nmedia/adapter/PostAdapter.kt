@@ -3,27 +3,24 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
-import androidx.core.view.isVisible
 
 interface OnInteractionListener {
-    fun OnLike(post: Post) {}
-    fun OnShare(post: Post) {}
-    fun OnRemove(post: Post) {}
-    fun OnEdit(post: Post) {}
+    fun LikeListener (post: Post)
+    fun ShareListener (post: Post)
+    fun RemoveListener (post: Post)
+    fun EditListener (post: Post)
     fun PlayVideo (post: Post)
 }
 
 class PostAdapter(
-    private val onInteractionListener: OnInteractionListener
-) : ListAdapter<Post, PostViewHolder>(
-    PostViewHolder.PostDiffCallback
-) {
+    private val onInteractionListener: OnInteractionListener) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -39,8 +36,7 @@ class PostAdapter(
 
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val onInteractionListener: OnInteractionListener
-) :
+    private val onInteractionListener: OnInteractionListener) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
@@ -48,20 +44,21 @@ class PostViewHolder(
             author.text = post.author
             content.text = post.content
             published.text = post.published
-            share.text = count(post.countShare)
-            views.text = count(post.countViews)
+
+            share.text = formatCount(post.shared)
+            view.text = formatCount(post.views)
 
             like.isChecked = post.likedByMe
-            like.text = count(post.countLikes)
+            like.text = formatCount(post.likes)
 
             attach.isVisible = post.video != null
 
             like.setOnClickListener {
-                onInteractionListener.OnLike(post)
+               onInteractionListener.LikeListener(post)
             }
 
             share.setOnClickListener {
-                onInteractionListener.OnShare(post)
+                onInteractionListener.ShareListener(post)
             }
 
             play.setOnClickListener{
@@ -76,17 +73,15 @@ class PostViewHolder(
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
+                        when(menuItem.itemId) {
                             R.id.edit -> {
-                                onInteractionListener.OnEdit(post)
+                                onInteractionListener.EditListener(post)
                                 true
                             }
-
                             R.id.remove -> {
-                                onInteractionListener.OnRemove(post)
+                                onInteractionListener.RemoveListener(post)
                                 true
                             }
-
                             else -> false
                         }
                     }
@@ -95,38 +90,23 @@ class PostViewHolder(
         }
     }
 
-    fun count(count: Int): String {
-        val hundred = (count % 1000) / 100
-        val thousand = count / 1000
-        val million = count / 1000000
-        val hundredThousand = (count % 1000000) / 100000
-
-        when {
-            count < 1000 ->
-                return count.toString()
-
-            count in 1000..9999 ->
-                return if (count % 1000 in 0..99) {
-                    "$thousand K"
-                } else return "$thousand.$hundred K"
-
-            count in 10000..999999 ->
-                return "$thousand K"
-
-            else -> {
-                return if (count % 1000000 in 0..99999) {
-                    "$million M"
-                } else {
-                    "$million.$hundredThousand M"
-                }
+    fun formatCount(count: Int): String {
+        return when {
+            count < 1000 -> count.toString()
+            count < 10000 -> "${count / 1000}K"
+            count < 1000000 -> {
+                val decimal = count % 1000 / 100
+                "${count / 1000}.$decimal" + "K"
             }
+
+            else -> "${count / 1000000}M"
         }
     }
+}
 
-    object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-        override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
+object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
+    override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
 
-    }
 }

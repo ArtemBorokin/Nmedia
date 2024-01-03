@@ -16,3 +16,4 @@ class NewPostResultContract: ActivityResultContract<String?, String?>() {
             null
         }
 }
+

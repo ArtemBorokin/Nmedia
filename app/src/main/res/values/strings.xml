@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">NMedia</string>
-    <string name="hello">Hello World!</string>
-    <string name="description_post_author_avatar">Post author avatar</string>
-    <string name="description_post_menu">Post menu</string>
-    <string name="description_post_like">Like</string>
-    <string name="description_post_share">Share</string>
-    <string name="description_post_save">Save</string>
-    <string name="menu_remove">Remove</string>
-    <string name="post_text">Post Text</string>
-    <string name="menu_edit">Edit</string>
-    <string name="error_empty_content">Content can\'t be empty</string>
-    <string name="chooser_share_post">Share post</string>
-    <string name="add_post">Add post</string>
+    <string name="app_name">Nmedia</string>
+    <string name="hello">NMedia!</string>
+    <string name="description_post_author_avatar">author`s avatar</string>
+    <string name="description_post_menu">menu</string>
+    <string name="menu_remove" translatable="false">remove</string>
+    <string name="post_text" translatable="false">post text</string>
+    <string name="description_post_save" translatable="false">description post save</string>
+    <string name="error_empty_content" translatable="false">error empty content</string>
+    <string name="menu_edit" translatable="false">edit</string>
+    <string name="edit" translatable="false">edit</string>
+    <string name="empty_text_error" translatable="false">текст не может быть пустым</string>
+    <string name="add_post" translatable="false">create new post</string>
+    <string name="play_video" translatable="false">play video</string>
 </resources>

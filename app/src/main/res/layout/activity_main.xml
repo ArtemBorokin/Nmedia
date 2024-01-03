@@ -10,80 +10,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/card_post" />
 
-
-    <ImageButton
-        android:id="@+id/pen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/baseline_edit_24"
-        app:layout_constraintTop_toBottomOf="@+id/list"
-        app:layout_constraintTop_toTopOf="@+id/edit_pen" />
-
-    <TextView
-        android:id="@+id/edit_pen"
-        android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="edit content"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="edit message"
-        app:layout_constraintBottom_toTopOf="@+id/content_line"
-        app:layout_constraintEnd_toStartOf="@+id/clear"
-        app:layout_constraintStart_toEndOf="@+id/pen"
-        app:layout_constraintTop_toBottomOf="@+id/list" />
-
-    <ImageButton
-        android:id="@+id/clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/baseline_clear_24"
-        app:layout_constraintBottom_toTopOf="@id/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/content_line"
-        android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:contentDescription="edit content"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/clear"
-        app:layout_constraintStart_toEndOf="@+id/pen"
-        app:layout_constraintTop_toBottomOf="@+id/edit_pen" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="content_line, clear, edit_pen, pen" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add"
+        android:id="@+id/newPostButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/common_spacing"
         android:contentDescription="@string/add_post"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_add_24dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_add_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
