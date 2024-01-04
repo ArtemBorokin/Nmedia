@@ -35,8 +35,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val newOrEditLauncher = registerForActivityResult(NewPostResultContract()) {
-            val text = it ?: return@registerForActivityResult
-            viewModel.changeContentAndSave(text)
+            if (it == null) {
+                viewModel.cancelEdit()
+                return@registerForActivityResult
+            }
+            viewModel.changeContentAndSave(it)
         }
 
         val adapter = PostAdapter(object : OnInteractionListener {
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         })
         binding.list.adapter = adapter
 
-        binding.newPostButton.setOnClickListener{
+        binding.newPostButton.setOnClickListener {
             newPostContract.launch(null)
         }
 
