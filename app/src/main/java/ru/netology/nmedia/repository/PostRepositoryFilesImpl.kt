@@ -7,21 +7,27 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia.dto.Post
 
-class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
+class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
 
     private val gson = Gson()
-    private val prefs = context.getSharedPreferences("repo", Context.MODE_PRIVATE)
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
-    private val key = "posts"
+    private val filename = "posts.json"
     private var nextId = 1L
     private var posts = emptyList<Post>()
+        set(value) {
+            field = value
+            sync()
+        }
     private var data = MutableLiveData(posts)
 
     init {
-        prefs.getString(key, null)?.let {
-            posts = gson.fromJson(it, type)
-            nextId = posts.maxOf { it.id } + 1
-            data.value = posts
+        val file = context.filesDir.resolve(filename)
+        if (file.exists()) {
+            context.openFileInput(filename).bufferedReader().use {
+                posts = gson.fromJson(it, type)
+                nextId = posts.maxOf { it.id } + 1
+                data.value = posts
+            }
         }
     }
 
@@ -35,7 +41,6 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
             )
         }
         data.value = posts
-        sync()
     }
 
     override fun sharedById(id: Long) {
@@ -43,13 +48,11 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
             if (it.id != id) it else it.copy(shared = it.shared + 1)
         }
         data.value = posts
-        sync()
     }
 
     override fun removeById(id: Long) {
         posts = posts.filter { it.id != id }
         data.value = posts
-        sync()
     }
 
     override fun save(post: Post) {
@@ -65,13 +68,11 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
             posts.map { if (it.id != post.id) it else it.copy(content = post.content) }
         }
         data.value = posts
-        sync()
     }
 
     private fun sync() {
-        with(prefs.edit()) {
-            putString(key, gson.toJson(posts))
-            apply()
+        context.openFileOutput(filename, Context.MODE_PRIVATE).bufferedWriter().use {
+            it.write(gson.toJson(posts))
         }
     }
 }
