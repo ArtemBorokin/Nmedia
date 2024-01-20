@@ -1,48 +1,52 @@
-package ru.netology.nmedia.adapter
+package ru.netology.nmedia.activity
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.databinding.CardPostBinding
+import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.util.LongArg
+import ru.netology.nmedia.viewmodel.PostViewModel
 
-interface OnInteractionListener {
-    fun likeListener(post: Post)
-    fun shareListener(post: Post)
-    fun removeListener(post: Post)
-    fun editListener(post: Post)
-    fun playVideo(post: Post)
-    fun showPost(post: Post)
-}
 
-class PostAdapter(
-    private val onInteractionListener: OnInteractionListener
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(view, onInteractionListener)
+class PostFragment : Fragment() {
+    companion object {
+        var Bundle.longArg: Long by LongArg
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
-        holder.bind(post)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val viewModel by activityViewModels<PostViewModel>()
+        val binding = FragmentPostBinding.inflate(layoutInflater, container, false)
+
+        val id = requireArguments().longArg
+        viewModel.data.observe(viewLifecycleOwner) {
+            val post: Post? = it.find { it.id == id }
+            if (post == null) {
+                findNavController().navigateUp()
+                return@observe
+            }
+        }
+        return binding.root
     }
 
-}
-
-class PostViewHolder(
-    private val binding: CardPostBinding,
-    private val onInteractionListener: OnInteractionListener
-) :
-    RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(post: Post) {
+    fun fillOnePost(
+        binding: CardPostBinding,
+        onInteractionListener: OnInteractionListener,
+        post: Post
+    ) {
         with(binding) {
             author.text = post.author
             content.text = post.content
@@ -116,9 +120,4 @@ class PostViewHolder(
     }
 }
 
-object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-    override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
-
-}
