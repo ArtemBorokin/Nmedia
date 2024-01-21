@@ -18,18 +18,16 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-
 class PostFragment : Fragment() {
     companion object {
         var Bundle.longArg: Long by LongArg
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val viewModel by activityViewModels<PostViewModel>()
         val binding = FragmentPostBinding.inflate(layoutInflater, container, false)
 
@@ -42,7 +40,7 @@ class PostFragment : Fragment() {
             }
             PostViewHolder(
                 binding.onePost,
-                object : OnInteractionListener { /* переопределённые методы для этого фрагмента */
+                object : OnInteractionListener {
                     override fun likeListener(post: Post) {
                         viewModel.likeById(post.id)
                     }
@@ -78,6 +76,7 @@ class PostFragment : Fragment() {
 
                     override fun showPost(post: Post) {
                         findNavController().navigate(
+                            //R.id.action_feedFragment_to_postFragment,
                             R.id.action_postFragment_to_PostFragment,
                             Bundle().apply { longArg = post.id })
                     }
