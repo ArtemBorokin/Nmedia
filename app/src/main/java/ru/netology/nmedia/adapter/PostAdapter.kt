@@ -12,17 +12,16 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 
 interface OnInteractionListener {
-    fun likeListener(post: Post)
-    fun shareListener(post: Post)
-    fun removeListener(post: Post)
-    fun editListener(post: Post)
-    fun playVideo(post: Post)
+    fun likeListener (post: Post)
+    fun shareListener (post: Post)
+    fun removeListener (post: Post)
+    fun editListener (post: Post)
+    fun playVideo (post: Post)
     fun showPost(post: Post)
 }
 
 class PostAdapter(
-    private val onInteractionListener: OnInteractionListener
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
+    private val onInteractionListener: OnInteractionListener) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -38,8 +37,7 @@ class PostAdapter(
 
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val onInteractionListener: OnInteractionListener
-) :
+    private val onInteractionListener: OnInteractionListener) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
@@ -56,26 +54,25 @@ class PostViewHolder(
 
             attach.isVisible = post.video != null
 
-            root.setOnClickListener {}
+            root.setOnClickListener{}
 
             like.setOnClickListener {
-                onInteractionListener.likeListener(post)
+               onInteractionListener.likeListener(post)
             }
 
             share.setOnClickListener {
                 onInteractionListener.shareListener(post)
             }
 
-            play.setOnClickListener {
+            play.setOnClickListener{
                 onInteractionListener.playVideo(post)
             }
 
-            image.setOnClickListener {
+            image.setOnClickListener{
                 onInteractionListener.playVideo(post)
             }
 
-            //здесь должен быть fragment post?
-            cardPost.setOnClickListener {
+            cardPost.setOnClickListener{
                 onInteractionListener.showPost(post)
             }
 
@@ -83,17 +80,15 @@ class PostViewHolder(
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
+                        when(menuItem.itemId) {
                             R.id.edit -> {
                                 onInteractionListener.editListener(post)
                                 true
                             }
-
                             R.id.remove -> {
                                 onInteractionListener.removeListener(post)
                                 true
                             }
-
                             else -> false
                         }
                     }

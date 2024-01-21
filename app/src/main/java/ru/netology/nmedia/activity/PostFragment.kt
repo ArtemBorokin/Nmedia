@@ -18,10 +18,12 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
+
 class PostFragment : Fragment() {
     companion object {
         var Bundle.longArg: Long by LongArg
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +54,7 @@ class PostFragment : Fragment() {
                             type = "text/*"
                         }
 
-                        viewModel.sharedById(post.id)
+                       viewModel.sharedById(post.id)
 
                         val chooser = Intent.createChooser(intent, null)
                         startActivity(chooser)
@@ -86,3 +88,6 @@ class PostFragment : Fragment() {
         return binding.root
     }
 }
+
+
+

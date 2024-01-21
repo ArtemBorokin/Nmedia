@@ -15,7 +15,6 @@ class NewPostFragment : Fragment() {
     companion object {
         var Bundle.textArg: String? by StringArg
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

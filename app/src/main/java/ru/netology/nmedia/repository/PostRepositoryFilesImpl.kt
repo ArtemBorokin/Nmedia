@@ -7,17 +7,20 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia.dto.Post
 
+
 class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
 
     private val gson = Gson()
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
     private val filename = "posts.json"
+
     private var nextId = 1L
     private var posts = emptyList<Post>()
         set(value) {
             field = value
             sync()
         }
+
     private var data = MutableLiveData(posts)
 
     init {
@@ -42,6 +45,7 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         }
         data.value = posts
     }
+
 
     override fun sharedById(id: Long) {
         posts = posts.map {
@@ -76,3 +80,4 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         }
     }
 }
+

@@ -32,7 +32,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun sharedById(id: Long) = repository.sharedById(id)
     fun removeById(id: Long) = repository.removeById(id)
 
-
     fun edit(post: Post) {
         edited.value = post
     }
@@ -54,3 +53,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = empty
     }
 }
+
+
+
