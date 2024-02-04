@@ -18,7 +18,6 @@ import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-
 class FeedFragment : Fragment() {
 
     override fun onCreateView(
